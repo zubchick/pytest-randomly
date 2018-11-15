@@ -6,10 +6,15 @@ import time
 
 # factory-boy
 try:
-    from factory.fuzzy import set_random_state as factory_set_random_state
+    from factory.random import set_random_state as factory_set_random_state
     have_factory_boy = True
 except ImportError:
-    have_factory_boy = False
+    # old versions
+    try:
+        from factory.fuzzy import set_random_state as factory_set_random_state
+        have_factory_boy = True
+    except ImportError:
+        have_factory_boy = False
 
 # faker
 try:
@@ -26,7 +31,7 @@ except ImportError:
     have_numpy = False
 
 
-__version__ = '1.2.1'
+__version__ = '1.2.3'
 
 
 def pytest_addoption(parser):
@@ -123,10 +128,11 @@ def pytest_collection_modifyitems(session, config, items):
         if current_module is None:
             current_module = getattr(item, 'module', None)
 
-        if getattr(item, 'module', None) != current_module:
+        item_module = getattr(item, 'module', None)
+        if item_module != current_module:
             module_items.append(shuffle_by_class(current_items))
             current_items = [item]
-            current_module = item.module
+            current_module = item_module
         else:
             current_items.append(item)
     module_items.append(shuffle_by_class(current_items))

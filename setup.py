@@ -22,10 +22,6 @@ with codecs.open('README.rst', 'r', 'utf-8') as readme_file:
 with codecs.open('HISTORY.rst', 'r', 'utf-8') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
-requirements = [
-    'pytest',
-]
-
 setup(
     name='pytest-randomly',
     version=version,
@@ -34,10 +30,13 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Adam Johnson",
     author_email='me@adamj.eu',
-    url='https://github.com/adamchainz/pytest-randomly',
+    url='https://github.com/pytest-dev/pytest-randomly',
     py_modules=['pytest_randomly'],
     include_package_data=True,
-    install_requires=requirements,
+    install_requires=[
+        'pytest',
+    ],
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     license="BSD",
     zip_safe=False,
     keywords='pytest, random, randomize, randomise, randomly',
